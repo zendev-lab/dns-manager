@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import subprocess
 from collections.abc import Iterable
-from typing import override
+from typing import cast, override
 
 from pyparsing import Combine, Group, OneOrMore, ParserElement, Suppress, Word, alphanums, nums
 
@@ -47,7 +47,7 @@ class SnmpGetter(IPGetterBase):
         output = completed.stdout
         if pattern is None:
             return output.splitlines()
-        return pattern.parse_string(output)
+        return cast(Iterable[str], pattern.parse_string(output))
 
     @override
     def get_ip(self) -> str:

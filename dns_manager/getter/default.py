@@ -24,4 +24,6 @@ class DefaultGetter(IPGetterBase):
 
         with socket(family, SOCK_DGRAM) as sock:
             sock.connect(target)
-            return sock.getsockname()[0]
+            ip = sock.getsockname()[0]
+            assert isinstance(ip, str)
+            return ip
