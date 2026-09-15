@@ -4,7 +4,7 @@ from abc import abstractmethod
 from collections.abc import Callable
 from enum import Enum
 from functools import wraps
-from typing import Any, override
+from typing import Any, ParamSpec, override
 
 from loguru import logger
 
@@ -35,10 +35,15 @@ class RecordStatus(Enum):
                 return self.value
 
 
-def catch_failed_exceptions(*exceptions: type[BaseException]):
-    def decorator(func: Callable[..., RecordStatus]) -> Callable[..., RecordStatus]:
+_P = ParamSpec("_P")
+
+
+def catch_failed_exceptions(
+    *exceptions: type[BaseException],
+) -> Callable[[Callable[_P, RecordStatus]], Callable[_P, RecordStatus]]:
+    def decorator(func: Callable[_P, RecordStatus]) -> Callable[_P, RecordStatus]:
         @wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args: _P.args, **kwargs: _P.kwargs) -> RecordStatus:
             try:
                 return func(*args, **kwargs)
             except exceptions as e:
