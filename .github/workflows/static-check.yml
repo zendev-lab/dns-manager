@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     name: CodeStyle Check
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Run prek ✅
         uses: j178/prek-action@v2
 
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Type Check
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Install the latest version of uv 📦
         uses: astral-sh/setup-uv@v6
       - name: Install python 📦
